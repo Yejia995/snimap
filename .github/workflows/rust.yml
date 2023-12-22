@@ -53,9 +53,9 @@ jobs:
       run: |
         mkdir ${{ runner.temp }}/release
         if [ "${{ runner.os }}" = "Windows" ]; then
-          cp target/release/${{ env.release-name }}.exe ${{ runner.temp }}/release
+          cp target/debug/${{ env.release-name }}.exe ${{ runner.temp }}/release
         else
-          cp target/release/${{ env.release-name }} ${{ runner.temp }}/release
+          cp target/debug/${{ env.release-name }} ${{ runner.temp }}/release
         fi
         cp private/ca.crt ${{ runner.temp }}/release
         cp README.md ${{ runner.temp }}/release
