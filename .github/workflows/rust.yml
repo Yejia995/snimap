@@ -49,8 +49,9 @@ jobs:
 
     # Copy files
     - name: Copy artifacts
+      shell: bash
       run: |
-        cp target/debug/${{ env.release-name }} ${{ runner.temp }}/${{ env.release-name }} # Adjust your target path
+        cp target/debug/${{ env.release-name }} ${{ runner.temp }}/${{ env.release-name }}
         cp private/ca.pem ${{ runner.temp }}/ca.crt
         cp README.md ${{ runner.temp }}/README.md
 
