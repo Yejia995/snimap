@@ -227,7 +227,6 @@ impl Default for Config {
                 .map(Mapping::new)
                 .collect(),
             ),
-            .disable_sni(),
             Group::new(
                 "Duckduckgo",
                 [
