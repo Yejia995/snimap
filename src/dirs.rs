@@ -1,9 +1,9 @@
+use std::env;
 use std::path::PathBuf;
 
 pub fn config_dir() -> PathBuf {
-    dirs_next::config_dir()
-        .map(|config_dir| config_dir.join("snimap"))
-        .expect("config directory not found")
+    env::current_dir()
+        .expect("Failed to determine the current directory")
 }
 
 pub fn config_file() -> PathBuf {

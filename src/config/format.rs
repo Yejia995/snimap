@@ -286,7 +286,7 @@ impl Default for Config {
                 ],
             ),
             Group::new(
-                "Twich",
+                "Twitch",
                 [
                     "twitch.tv",
                     "www.twitch.tv",
