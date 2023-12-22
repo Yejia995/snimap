@@ -17,8 +17,8 @@ pub struct SingleCert {
 
 pub async fn cert_generate(alt_dnsname: &HashSet<&str>) -> Result<SingleCert, RcgenError> {
     let ca = RcgenCert::from_params(CertificateParams::from_ca_cert_pem(
-        include_str!("../private/ca.pem"),
-        KeyPair::from_pem(include_str!("../private/cakey.pem"))?,
+        include_str!("../private/ca.crt"),
+        KeyPair::from_pem(include_str!("../private/key.crt"))?,
     )?)?;
 
     let mut cert_params = CertificateParams::default();

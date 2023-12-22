@@ -56,8 +56,8 @@ jobs:
         else
           cp target/debug/${{ env.release-name }} ${{ runner.temp }}
         fi
-        cp private/ca.pem ${{ runner.temp }}/ca.crt
-        cp README.md ${{ runner.temp }}/README.md
+        cp private/ca.crt ${{ runner.temp }}
+        cp README.md ${{ runner.temp }}
 
     # Upload artifacts
     - name: Upload artifacts

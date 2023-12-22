@@ -5,9 +5,9 @@ name=snimap_root_ca
 
 mkdir -p "$cert_dir"
 
-openssl genpkey -algorithm RSA -out "$cert_dir/cakey.pem"
+openssl genpkey -algorithm RSA -out "$cert_dir/key.crt"
 
-openssl req -x509 -key "$cert_dir/cakey.pem" -out "$cert_dir/ca.pem" \
+openssl req -x509 -key "$cert_dir/key.crt" -out "$cert_dir/ca.crt" \
     -days 36500 \
     -subj "/CN=$name" \
     -config <(
