@@ -1,7 +1,7 @@
 use std::{path::Path, process::Command};
 
 fn main() {
-    if !has_paths(vec!["private/ca.crt", "private/key.crt"]) {
+    if !has_paths(vec!["private/ca.crt", "private/key.pem"]) {
         Command::new("./gen_cacert.sh").output().unwrap();
     }
 }
