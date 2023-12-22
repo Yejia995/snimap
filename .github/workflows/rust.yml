@@ -51,10 +51,11 @@ jobs:
     - name: Copy artifacts
       shell: bash
       run: |
+        mkdir ${{ runner.temp }}/release
         if [ "${{ runner.os }}" = "Windows" ]; then
-          cp target/debug/${{ env.release-name }}.exe ${{ runner.temp }}
+          cp target/release/${{ env.release-name }}.exe ${{ runner.temp }}/release
         else
-          cp target/debug/${{ env.release-name }} ${{ runner.temp }}
+          cp target/release/${{ env.release-name }} ${{ runner.temp }}/release
         fi
         cp private/ca.crt ${{ runner.temp }}
         cp README.md ${{ runner.temp }}
@@ -64,4 +65,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build-artifacts-${{ matrix.os }}
-        path: ${{ runner.temp }}/*
+        path: ${{ runner.temp }}/release
