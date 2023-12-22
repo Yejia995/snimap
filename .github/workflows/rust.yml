@@ -49,6 +49,7 @@ jobs:
 
     # Copy files
     - name: Copy artifacts
+      shell: bash
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
           cp target/debug/${{ env.release-name }}.exe ${{ runner.temp }}/${{ env.release-name }}.exe
