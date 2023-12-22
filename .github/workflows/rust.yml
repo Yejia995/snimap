@@ -52,9 +52,9 @@ jobs:
       shell: bash
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
-          cp target/debug/${{ env.release-name }}.exe ${{ runner.temp }}/${{ env.release-name }}.exe
+          cp target/debug/${{ env.release-name }}.exe ${{ runner.temp }}
         else
-          cp target/debug/${{ env.release-name }} ${{ runner.temp }}/${{ env.release-name }}
+          cp target/debug/${{ env.release-name }} ${{ runner.temp }}
         fi
         cp private/ca.pem ${{ runner.temp }}/ca.crt
         cp README.md ${{ runner.temp }}/README.md
