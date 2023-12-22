@@ -214,6 +214,21 @@ impl Default for Config {
     fn default() -> Self {
         Self::new(vec![
             Group::new(
+                "Discord",
+                [
+                    "discord.com",
+                    "discordapp.com", // Legacy domain
+                    "media.discordapp.net",
+                    "cdn.discordapp.com",
+                    "gateway.discord.gg",
+                    "status.discord.com",
+                ]
+                .into_iter()
+                .map(Mapping::new)
+                .collect(),
+            ),
+            .disable_sni(),
+            Group::new(
                 "Duckduckgo",
                 [
                     "duck.com",
