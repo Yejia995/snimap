@@ -1,0 +1,62 @@
+name: Rust CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  release-name: snimap
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Install Rust toolchain (beta channel)
+    - name: Install Rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: beta
+        override: true
+
+    # Cache cargo registry, index, and build
+    - name: Cache cargo
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    # Build
+    - name: Build
+      run: cargo build --verbose
+
+    # Test
+    - name: Run tests
+      run: cargo test --verbose
+
+    # Copy files
+    - name: Copy artifacts
+      run: |
+        cp target/debug/${{ env.release-name }} ${{ runner.temp }}/${{ env.release-name }} # Adjust your target path
+        cp ca.crt ${{ runner.temp }}/ca.crt
+        cp README.md ${{ runner.temp }}/README.md
+
+    # Upload artifacts
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts-${{ matrix.os }}
+        path: ${{ runner.temp }}/*
