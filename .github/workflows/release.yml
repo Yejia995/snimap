@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: [ci]
     types: [completed]
+  workflow_dispatch:
 
 env:
   release-name: snimap
