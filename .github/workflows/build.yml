@@ -34,7 +34,7 @@ jobs:
 
     # Build
     - name: Cargo Build
-      run: cargo build --verbose
+      run: cargo build --verbose --release
 
     # Copy files
     - name: Copy artifacts
