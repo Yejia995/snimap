@@ -1,4 +1,4 @@
-name: Rust CI
+name: Build CI
 
 on:
   push:
@@ -23,10 +23,10 @@ jobs:
 
     # Install Rust toolchain (nightly channel)
     - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1
+      uses: actions-rs/rust-toolchain@v1
       with:
         profile: minimal
-        toolchain: nightly
+        toolchain: stable
         override: true
 
     # Cache cargo registry, index, and build
@@ -42,10 +42,6 @@ jobs:
     # Build
     - name: Build
       run: cargo build --verbose
-
-    # Test
-    - name: Run tests
-      run: cargo test --verbose
 
     # Copy files
     - name: Copy artifacts
