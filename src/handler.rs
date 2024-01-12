@@ -94,10 +94,8 @@ async fn forward(
             }
         }
     }
-    let awc_response = awc_request
-        .send_stream(payload)
-        .await
-        .inspect(|r| {
+    let awc_response = match awc_request.send_stream(payload).await {
+        Ok(response) => {
             log::info!(
                 target: "forward",
                 "{} \"{} {} {:?}\" host: {:?} {} {:?}",
@@ -106,11 +104,12 @@ async fn forward(
                 uri.path(),
                 version,
                 host,
-                r.status(),
-                r.version(),
-            )
-        })
-        .inspect_err(|e| {
+                response.status(),
+                response.version(),
+            );
+            response
+        }
+        Err(e) => {
             log::error!(
                 target: "forward",
                 "{} \"{} {} {:?}\" host: {:?} error: {}",
@@ -120,8 +119,10 @@ async fn forward(
                 version,
                 host,
                 e
-            )
-        })?;
+            );
+            return Err(Box::new(e) as Box<dyn std::error::Error>);
+        }
+    };     
     let mut response = HttpResponse::build(awc_response.status());
     for (header_name, header_value) in awc_response.headers().iter() {
         response.append_header((header_name.clone(), header_value.clone()));

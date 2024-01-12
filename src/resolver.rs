@@ -45,7 +45,7 @@ impl ResolveResult {
     pub fn get_or_init(&self, host: &str) -> Option<SocketAddr> {
         match self {
             ResolveResult::CGetAddrInfo(socket_addr) => socket_addr.get_or_try_init(|| {
-                lookup_host(host)
+                match lookup_host(host)
                     .map_err(|e| e.to_string())
                     .and_then(|ip_addrs| {
                         ip_addrs
@@ -56,18 +56,33 @@ impl ResolveResult {
                                 "no socket_addr found in return value of `lookup_host` function"
                                     .to_string()
                             })
-                    })
-                    .inspect(|socket_addr| log::info!(target: "lookup", "{host} -> {socket_addr}"))
+                    }) {
+                        Ok(socket_addr) => {
+                            log::info!(target: "lookup", "{host} -> {socket_addr}");
+                            Ok(socket_addr)
+                        },
+                        Err(e) => {
+                            log::error!(target: "lookup", "{host} -> failed to lookup: {e}");
+                            Err(e)
+                        }
+                }
             }),
             ResolveResult::WwwIpaddressCom(socket_addr) => socket_addr.get_or_try_init(|| {
-                ip_lookup_on_ipaddress_com(host)
+                match ip_lookup_on_ipaddress_com(host)
                     .and_then(capture_ip_from_html_plain)
                     .map(|ip_addr| SocketAddr::new(ip_addr, 443))
-                    .map_err(|e| e.to_string())
-                    .inspect(|socket_addr| log::info!(target: "lookup", "{host} -> {socket_addr}"))
+                    .map_err(|e| e.to_string()) {
+                        Ok(socket_addr) => {
+                            log::info!(target: "lookup", "{host} -> {socket_addr}");
+                            Ok(socket_addr)
+                        },
+                        Err(e) => {
+                            log::error!(target: "lookup", "{host} -> failed to lookup: {e}");
+                            Err(e)
+                        }
+                }
             }),
         }
-        .inspect_err(|e| log::error!(target: "lookup", "{host} -> failed to lookup: {e}"))
         .ok()
         .cloned()
     }
