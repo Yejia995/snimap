@@ -41,7 +41,7 @@ jobs:
       shell: bash
       run: |
         mkdir tmp
-        cp target/debug/${{ env.release-name }}* tmp
+        cp target/release/${{ env.release-name }}* tmp
         cp crt/ca.crt tmp
         cp README.md tmp
 
