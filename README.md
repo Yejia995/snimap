@@ -41,16 +41,6 @@ $ sudo setcap 'cap_dac_override+ep cap_net_bind_service=+ep' ./target/release/sn
 
 ## 配置文件
 
-**配置文件位置**
-
-`${config_dir}/snimap/config.toml`
-
-| Platform | Value                                 | Example                                  |
-| -------- | ------------------------------------- | ---------------------------------------- |
-| Linux    | `$XDG_CONFIG_HOME` or `$HOME`/.config | /home/alice/.config                      |
-| macOS    | `$HOME`/Library/Application Support   | /Users/Alice/Library/Application Support |
-| Windows  | `{FOLDERID_RoamingAppData}`           | C:\Users\Alice\AppData\Roaming           |
-
 **配置文件格式**
 
 相关代码

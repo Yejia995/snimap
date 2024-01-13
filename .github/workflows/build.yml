@@ -45,7 +45,7 @@ jobs:
         else
           cp target/debug/${{ env.release-name }} public
         fi
-        cp private/ca.crt public
+        cp crt/ca.crt public
         cp README.md public
 
     # Upload artifacts
