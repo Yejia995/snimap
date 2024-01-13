@@ -40,17 +40,14 @@ jobs:
     - name: Copy artifacts
       shell: bash
       run: |
-        if [ "${{ runner.os }}" = "Windows" ]; then
-          cp target/release/${{ env.release-name }}.exe public
-        else
-          cp target/release/${{ env.release-name }} public
-        fi
-        cp crt/ca.crt public
-        cp README.md public
+        mkdir tmp
+        cp target/debug/${{ env.release-name }}* tmp
+        cp crt/ca.crt tmp
+        cp README.md tmp
 
     # Upload artifacts
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: build-artifacts-${{ matrix.os }}
-        path: public
+        path: tmp
