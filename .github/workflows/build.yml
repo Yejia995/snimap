@@ -41,9 +41,9 @@ jobs:
       shell: bash
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
-          cp target/debug/${{ env.release-name }}.exe public
+          cp target/release/${{ env.release-name }}.exe public
         else
-          cp target/debug/${{ env.release-name }} public
+          cp target/release/${{ env.release-name }} public
         fi
         cp crt/ca.crt public
         cp README.md public
